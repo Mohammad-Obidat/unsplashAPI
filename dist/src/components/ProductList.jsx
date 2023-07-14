@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Button, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Button, Spinner, Toast } from 'react-bootstrap';
 
 function ProductList() {
   const [productDetails, setProductDetails] = useState({});
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [expandedMap, setExpandedMap] = useState({});
 
   const fetchProducts = async () => {
     try {
@@ -13,6 +15,7 @@ function ProductList() {
       setLoading(false);
     } catch (error) {
       console.error('Error:', error);
+      setError('An error occurred while fetching product details.');
       setLoading(false);
     }
   };
@@ -20,8 +23,6 @@ function ProductList() {
   useEffect(() => {
     fetchProducts();
   }, []);
-
-  const [expandedMap, setExpandedMap] = useState({});
 
   const toggleExpanded = (productId) => {
     setExpandedMap((prevState) => ({
@@ -34,7 +35,7 @@ function ProductList() {
     if (text.length <= maxLength || expandedMap[productId]) {
       return text;
     }
-    return text.substring(0, maxLength) + '...';
+    return text.substring(0, maxLength) + ' ... ';
   };
 
   return (
@@ -48,10 +49,28 @@ function ProductList() {
               style={{ width: '2.5rem', height: '2.5rem' }}
             />
           </div>
+        ) : error ? (
+          <div className='d-flex justify-content-center align-items-center'>
+            <Toast
+              show={true}
+              onClose={() => setError(null)}
+              className='error-toast'
+            >
+              <Toast.Header closeButton={false}>
+                <strong>Error</strong>
+              </Toast.Header>
+              <Toast.Body>{error}</Toast.Body>
+            </Toast>
+          </div>
         ) : (
           productDetails.map((product) => (
             <Col key={product.id} sm={6} md={3}>
-              <Card style={{ width: '18rem' }}>
+              <Card
+                style={{
+                  width: '18rem',
+                  marginBottom: '20px',
+                }}
+              >
                 <Card.Img
                   variant='top'
                   src={product.imageURL}
