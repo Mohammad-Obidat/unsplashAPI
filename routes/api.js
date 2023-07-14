@@ -5,13 +5,16 @@ const router = express.Router();
 const getProducts = async () => {
   const URL = `https://api.unsplash.com/photos?client_id=${process.env.unsplashAPI_KEY}`;
   const products = await axios.get(URL);
-  products.data.map((product) => {
-    return {
-      id: product.id,
-      description: product.description,
-      imageURL: product.urls.full,
-    };
-  });
+  return products.data.map((product) => ({
+    id: product.id,
+    name: product.user.name,
+    description:
+      product.description ||
+      'The product does not have a provided description.',
+    imageURL:
+      product.urls.full ||
+      'https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png',
+  }));
 };
 
 router.get('/', async (req, res) => {
