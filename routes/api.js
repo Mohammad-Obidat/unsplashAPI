@@ -1,17 +1,26 @@
-require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-const getPhotos = async () => {
-  //   const URL = `https://api.unsplash.com/photos?client_id=${process.env.UNSPLASHAPI_KEY}`;
-  const URL = `https://api.unsplash.com/photos?client_id=EXHr9WnNMv1Hl8Y99eMaXkOqlqFYRN4OE34SINtEtCQ`;
-  const photos = await axios.get(URL);
-  photos.data.map((photo) => {
+const getProducts = async () => {
+  const URL = `https://api.unsplash.com/photos?client_id=${process.env.unsplashAPI_KEY}`;
+  const products = await axios.get(URL);
+  products.data.map((product) => {
     return {
-      id: photo.id,
-      description: photo.description,
-      imageURL: photo.urls.full,
+      id: product.id,
+      description: product.description,
+      imageURL: product.urls.full,
     };
   });
 };
+
+router.get('/', async (req, res) => {
+  try {
+    const products = await getProducts();
+    res.status(200).send(products);
+  } catch (error) {
+    res.sendStatus(400);
+  }
+});
+
+module.exports = router;
