@@ -1,0 +1,24 @@
+{
+  "name": "unsplashapi-taal",
+  "version": "1.0.0",
+  "description": "React.js Technical Test for Ta'al",
+  "main": "server.js",
+  "scripts": {
+    "start": "node ./server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mohammad-Obidat/unsplashAPI.git"
+  },
+  "author": "Mohammad Obidat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mohammad-Obidat/unsplashAPI/issues"
+  },
+  "homepage": "https://github.com/Mohammad-Obidat/unsplashAPI#readme",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  }
+}
