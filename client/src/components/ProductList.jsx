@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Spinner, Toast } from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  Card,
+  Spinner,
+  Toast,
+  ToastContainer,
+} from 'react-bootstrap';
 import '../styles/ProductList.css';
 
 function ProductList({ searchParam }) {
@@ -11,7 +18,7 @@ function ProductList({ searchParam }) {
 
   const fetchProducts = async () => {
     try {
-      const products = await fetch('http://localhost:5000/');
+      const products = await fetch('/api/');
       const product = await products.json();
       setProductList(product);
       setLoading(false);
@@ -42,7 +49,7 @@ function ProductList({ searchParam }) {
     }));
   };
 
-  const truncateText = (productId, text, maxLength) => {
+  const truncateText = (productId, text, maxLength = 50) => {
     if (text.length <= maxLength || expandedMap[productId]) {
       return text;
     }
@@ -53,16 +60,17 @@ function ProductList({ searchParam }) {
     <>
       <Row>
         {loading ? (
-          <div className='d-flex justify-content-center align-items-center vh-100'>
+          <ToastContainer position='middle-center'>
             <Spinner
               animation='border'
               variant='primary'
               className='loadingSpinner'
             />
-          </div>
+          </ToastContainer>
         ) : error ? (
-          <div className='d-flex justify-content-center align-items-center'>
+          <ToastContainer position='middle-center'>
             <Toast
+              bg='info'
               show={true}
               onClose={() => setError(null)}
               className='error-toast'
@@ -72,7 +80,23 @@ function ProductList({ searchParam }) {
               </Toast.Header>
               <Toast.Body>{error}</Toast.Body>
             </Toast>
-          </div>
+          </ToastContainer>
+        ) : filteredProducts.length === 0 ? (
+          <ToastContainer position='middle-center'>
+            <Toast
+              bg='info'
+              show={true}
+              onClose={() => setError(null)}
+              className='error-toast'
+            >
+              <Toast.Header closeButton={false}>
+                <strong>Oops !</strong>
+              </Toast.Header>
+              <Toast.Body>
+                Apologies, but no photos were found matching the search words.
+              </Toast.Body>
+            </Toast>
+          </ToastContainer>
         ) : (
           filteredProducts.map((product) => (
             <Col key={product.id} sm={6} md={3}>

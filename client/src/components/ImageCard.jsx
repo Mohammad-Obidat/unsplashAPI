@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Spinner, Toast } from 'react-bootstrap';
+import { Spinner, Toast, ToastContainer } from 'react-bootstrap';
 
 function ImageCard() {
   const [photoUrl, setPhotoUrl] = useState([]);
@@ -9,7 +9,7 @@ function ImageCard() {
 
   const fetchImagesUrl = async () => {
     try {
-      const imagesUrl = await fetch('http://localhost:5000/imageGallery');
+      const imagesUrl = await fetch('/api/imageGallery');
       const response = await imagesUrl.json();
 
       // Verify the response structure and adjust accordingly
@@ -38,8 +38,9 @@ function ImageCard() {
           />
         </div>
       ) : error ? (
-        <div className='d-flex justify-content-center align-items-center'>
+        <ToastContainer position='middle-center'>
           <Toast
+            bg='info'
             show={true}
             onClose={() => setError(null)}
             className='error-toast'
@@ -49,7 +50,7 @@ function ImageCard() {
             </Toast.Header>
             <Toast.Body>{error}</Toast.Body>
           </Toast>
-        </div>
+        </ToastContainer>
       ) : (
         photoUrl.map((image) => (
           <div

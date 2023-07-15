@@ -34,7 +34,7 @@ const getImages = async () => {
   return getUnsplashApiData(imagesMapper);
 };
 
-router.get('/', async (req, res) => {
+router.get('/api/', async (req, res) => {
   try {
     const products = await getProducts();
     res.status(200).send(products);
@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/imageGallery', async (req, res) => {
+router.get('/api/imageGallery', async (req, res) => {
   try {
     const images = await getImages();
     res.status(200).send(images);

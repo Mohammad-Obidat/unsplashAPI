@@ -1,27 +1,23 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const api = require('./routes/api.js');
 
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'dist')));
-app.use(express.static(path.join(__dirname, 'node_modules')));
 
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Content-Type, Authorization, Content-Length, X-Requested-With'
-  );
+app.get('/', (req, res) => res.send('API Running'));
+app.use('/', require('./routes/api/products.js'));
 
-  next();
-});
+// serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+  //set static folder
+  app.use(express.static('client/build'));
 
-app.use('/', api);
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, console.log(`listening on ${PORT}`));
