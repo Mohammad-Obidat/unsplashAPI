@@ -9,7 +9,7 @@ const descriptionNotFound = 'The product does not have a provided description.';
 // Getting List of Products Using Unsplash API
 const getUnsplashApiData = async (mapper) => {
   try {
-    const _URL = `https://api.unsplash.com/photos?client_id=${process.env.unsplashAPI_KEY}`;
+    const _URL = `https://api.unsplash.com/photos?client_id=${process.env.UNSPLASH_ACCESS_KEY}`;
     const response = await axios.get(_URL);
     return response.data.map(mapper);
   } catch (error) {

@@ -9,9 +9,7 @@ function ImageCard() {
 
   const fetchImagesUrl = async () => {
     try {
-      const imagesUrl = await fetch(
-        'https://unsplashapi-taal.onrender.com/api/imageGallery'
-      );
+      const imagesUrl = await fetch('/api/imageGallery');
       const response = await imagesUrl.json();
 
       // Verify the response structure and adjust accordingly
@@ -51,6 +49,24 @@ function ImageCard() {
               <strong>Error</strong>
             </Toast.Header>
             <Toast.Body>{error}</Toast.Body>
+          </Toast>
+        </ToastContainer>
+      ) : photoUrl.length === 0 ? (
+        <ToastContainer position='middle-center'>
+          <Toast
+            bg='info'
+            show={true}
+            onClose={() => setError(null)}
+            className='error-toast'
+          >
+            <Toast.Header closeButton={false}>
+              <strong>Error</strong>
+            </Toast.Header>
+            <Toast.Body>
+              Behold, a realm where the canvas of imagination knows no bounds,
+              yet alas, there are no images to unveil, for the ethereal wonders
+              remain concealed within the depths of the mind's eye
+            </Toast.Body>
           </Toast>
         </ToastContainer>
       ) : (

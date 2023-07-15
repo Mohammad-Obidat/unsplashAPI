@@ -1,70 +1,124 @@
-# Getting Started with Create React App
+# Project Name
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React.js Technical Test for TA'AL
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+- Node.js
+- Git
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Clone the repository:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+   ```bash
+   git clone https://github.com/Mohammad-Obidat/unsplashAPI.git
 
-### `npm test`
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Navigate to the project directory
 
-### `npm run build`
+   ```bash
+   cd unsplashAPI
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. Install the dependencies
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+either on root (backend), or cd client (frontend)
 
-### `npm run eject`
+```bash
+npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Configuration
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Create a `.env` file in the root directory of the project.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. Add the following environment variables to the `.env` file:
 
-## Learn More
+```makefile
+UNSPLASH_ACCESS_KEY=<your-Unsplash-API-key>
+PORT=<your-app-port>
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Running the App
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To start the MERN app, follow these steps:
 
-### Code Splitting
+1. Start the Node.js server:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+npm run server
+```
 
-### Analyzing the Bundle Size
+2. Start the React development server (in a new terminal tab):
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+npm start
+```
 
-### Making a Progressive Web App
+3. Open your web browser and visit `http://localhost:<your-app-port>` to see the app in action.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Project Structure
 
-### Advanced Configuration
+Describe the structure of your project directory, including key files and directories.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Additional Information
 
-### Deployment
+### Unsplash API
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+This project utilizes the Unsplash API to fetch and display high-quality images. Follow the instructions below to obtain the necessary credentials and configure the API integration.
 
-### `npm run build` fails to minify
+#### Getting API Credentials
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+To use the Unsplash API, you'll need to create an account and obtain an API access key. Here's how:
+
+1. Visit the [Unsplash Developer](https://unsplash.com/developers) website.
+2. Sign in or create a new account.
+3. Create a new application to generate an API access key.
+4. Note down the access key for future use.
+
+#### Configuration
+
+Once you have obtained the API access key, follow these steps to configure the project:
+
+1. In the project directory, locate the `.env` file.
+2. Open the `.env` file in a text editor.
+3. Set the `UNSPLASH_ACCESS_KEY` environment variable with your API access key:
+
+UNSPLASH_ACCESS_KEY=<your-unsplash-api-access-key>
+
+#### Usage
+
+To fetch images from the Unsplash API, you can utilize the provided functions and endpoints. Here's an example of how to use the API integration:
+
+```javascript
+// Example code for fetching images using the Unsplash API
+
+// Import the necessary libraries or modules
+// ...
+
+// Set up the API request
+const accessKey = process.env.UNSPLASH_ACCESS_KEY;
+const endpoint = `https://api.unsplash.com/photos/random?client_id=${accessKey}`;
+
+// Make the API request to fetch a random image
+fetch(endpoint)
+  .then((response) => response.json())
+  .then((data) => {
+    // Handle the API response and use the image data
+    // ...
+  })
+  .catch((error) => {
+    // Handle any errors that occurred during the API request
+    // ...
+  });
+```
+
+For more details on using the Unsplash API, visit the [Unsplash Documentation](https://unsplash.com/documentation) website.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
