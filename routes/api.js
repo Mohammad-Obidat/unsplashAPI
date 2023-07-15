@@ -7,7 +7,7 @@ const damageImage =
 const descriptionNotFound = 'The product does not have a provided description.';
 
 // Getting List of Products Using Unsplash API
-const getData = async (mapper) => {
+const getUnsplashApiData = async (mapper) => {
   try {
     const _URL = `https://api.unsplash.com/photos?client_id=${process.env.unsplashAPI_KEY}`;
     const response = await axios.get(_URL);
@@ -25,13 +25,13 @@ const getProducts = async () => {
     imageURL: product.urls.full || damageImage,
   });
 
-  return getData(productsMapper);
+  return getUnsplashApiData(productsMapper);
 };
 
 const getImages = async () => {
   const imagesMapper = (image) => image.urls.regular || damageImage;
 
-  return getData(imagesMapper);
+  return getUnsplashApiData(imagesMapper);
 };
 
 router.get('/', async (req, res) => {
@@ -47,33 +47,6 @@ router.get('/imageGallery', async (req, res) => {
   try {
     const images = await getImages();
     res.status(200).send(images);
-  } catch (error) {
-    res.sendStatus(400);
-  }
-});
-
-// Getting Searched List of Products by names from Unsplash API
-const getProductsByName = async (productName) => {
-  try {
-    const _URL = `https://api.unsplash.com/search/photos?client_id=${process.env.unsplashAPI_KEY}&query=${productName}`;
-    const searchedProductsByName = await axios.get(_URL);
-    const searchedProducts = searchedProductsByName.data.results;
-    return searchedProducts.map((searchedProduct) => ({
-      id: searchedProduct.id,
-      name: searchedProduct.user.name,
-      description: searchedProduct.description || descriptionNotFound,
-      imageURL: searchedProduct.urls.full || damageImage,
-    }));
-  } catch (error) {
-    throw new Error('Error:', error.message);
-  }
-};
-
-router.get('/search/:productName', async (req, res) => {
-  try {
-    const _productName = req.params.productName.toLowerCase();
-    const _getProductsByName = await getProductsByName(_productName);
-    res.status(200).send(_getProductsByName);
   } catch (error) {
     res.sendStatus(400);
   }

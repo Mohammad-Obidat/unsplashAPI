@@ -1,12 +1,16 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import { LinkContainer } from 'react-router-bootstrap';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-function navbar() {
+function NavbarComponent({ searchParam, setSearchParam }) {
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    setSearchParam(value);
+  };
+
   return (
     <>
       <Navbar
@@ -37,8 +41,9 @@ function navbar() {
                 placeholder='Search'
                 className='me-2'
                 aria-label='Search'
+                value={searchParam}
+                onChange={handleInputChange}
               />
-              <Button variant='outline-success'>Search</Button>
             </Form>
           </Navbar.Collapse>
         </Container>
@@ -47,4 +52,4 @@ function navbar() {
   );
 }
 
-export default navbar;
+export default NavbarComponent;

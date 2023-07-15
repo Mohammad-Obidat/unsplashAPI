@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Button, Spinner, Toast } from 'react-bootstrap';
+import { Row, Col, Card, Spinner, Toast } from 'react-bootstrap';
+import '../styles/ProductList.css';
 
-function ProductList() {
-  const [productDetails, setProductDetails] = useState({});
+function ProductList({ searchParam }) {
+  const [productList, setProductList] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expandedMap, setExpandedMap] = useState({});
@@ -11,7 +13,7 @@ function ProductList() {
     try {
       const products = await fetch('http://localhost:5000/');
       const product = await products.json();
-      setProductDetails(product);
+      setProductList(product);
       setLoading(false);
     } catch (error) {
       console.error('Error:', error);
@@ -22,7 +24,16 @@ function ProductList() {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+
+    if (searchParam === '') {
+      setFilteredProducts(productList);
+    } else {
+      const filter = productList.filter((p) =>
+        p.name.toLowerCase().includes(searchParam.toLowerCase())
+      );
+      setFilteredProducts(filter);
+    }
+  }, [searchParam, productList]);
 
   const toggleExpanded = (productId) => {
     setExpandedMap((prevState) => ({
@@ -46,7 +57,7 @@ function ProductList() {
             <Spinner
               animation='border'
               variant='primary'
-              style={{ width: '2.5rem', height: '2.5rem' }}
+              className='loadingSpinner'
             />
           </div>
         ) : error ? (
@@ -63,39 +74,28 @@ function ProductList() {
             </Toast>
           </div>
         ) : (
-          productDetails.map((product) => (
+          filteredProducts.map((product) => (
             <Col key={product.id} sm={6} md={3}>
-              <Card
-                style={{
-                  width: '18rem',
-                  marginBottom: '20px',
-                }}
-              >
+              <Card className='productCard'>
                 <Card.Img
                   variant='top'
+                  className='productCardImg'
                   src={product.imageURL}
-                  style={{ width: '100%', height: '200px', objectFit: 'cover' }}
                 />
                 <Card.Body>
                   <Card.Title>{product.name}</Card.Title>
                   <Card.Text>
                     {truncateText(product.id, product.description, 50)}
                     {product.description.length > 50 && (
-                      <span>
+                      <span className='expandableSpan'>
                         {expandedMap[product.id] ? (
-                          <Button
-                            variant='secondary'
-                            onClick={() => toggleExpanded(product.id)}
-                          >
+                          <span onClick={() => toggleExpanded(product.id)}>
                             Read less
-                          </Button>
+                          </span>
                         ) : (
-                          <Button
-                            variant='secondary'
-                            onClick={() => toggleExpanded(product.id)}
-                          >
+                          <span onClick={() => toggleExpanded(product.id)}>
                             Read more
-                          </Button>
+                          </span>
                         )}
                       </span>
                     )}
