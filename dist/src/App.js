@@ -1,5 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import Navbar from './components/navbar';
 import ProductList from './components/ProductList';
 import ImageGallery from './components/ImageGallery';
 import 'bootstrap/dist/css/bootstrap.min.css';
