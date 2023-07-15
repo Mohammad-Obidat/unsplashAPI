@@ -9,7 +9,9 @@ function ImageCard() {
 
   const fetchImagesUrl = async () => {
     try {
-      const imagesUrl = await fetch('/api/imageGallery');
+      const imagesUrl = await fetch(
+        'https://unsplashapi-taal.onrender.com/api/imageGallery'
+      );
       const response = await imagesUrl.json();
 
       // Verify the response structure and adjust accordingly

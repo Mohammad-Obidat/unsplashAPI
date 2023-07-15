@@ -18,7 +18,9 @@ function ProductList({ searchParam }) {
 
   const fetchProducts = async () => {
     try {
-      const products = await fetch('/api/');
+      const products = await fetch(
+        'https://unsplashapi-taal.onrender.com/api/'
+      );
       const product = await products.json();
       setProductList(product);
       setLoading(false);
