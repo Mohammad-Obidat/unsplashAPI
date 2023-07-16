@@ -60,7 +60,7 @@ function ImageCard() {
             className='error-toast'
           >
             <Toast.Header closeButton={false}>
-              <strong>Error</strong>
+              <strong>Oops !</strong>
             </Toast.Header>
             <Toast.Body>
               Behold, a realm where the canvas of imagination knows no bounds,

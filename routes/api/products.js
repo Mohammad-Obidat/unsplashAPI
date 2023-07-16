@@ -2,11 +2,14 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-const damageImage =
+// Default image URL for when image is not found
+const defaultImageURL =
   'https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png';
-const descriptionNotFound = 'The product does not have a provided description.';
 
-// Getting List of Products Using Unsplash API
+// Default description for when product description is not provided
+const defaultDescription = 'The product does not have a provided description.';
+
+// Function to fetch data from Unsplash API and map it using the provided mapper function
 const getUnsplashApiData = async (mapper) => {
   try {
     const _URL = `https://api.unsplash.com/photos?client_id=${process.env.UNSPLASH_ACCESS_KEY}`;
@@ -21,19 +24,20 @@ const getProducts = async () => {
   const productsMapper = (product) => ({
     id: product.id,
     name: product.user.name,
-    description: product.description || descriptionNotFound,
-    imageURL: product.urls.full || damageImage,
+    description: product.description || defaultDescription,
+    imageURL: product.urls.full || defaultImageURL,
   });
 
   return getUnsplashApiData(productsMapper);
 };
 
 const getImages = async () => {
-  const imagesMapper = (image) => image.urls.regular || damageImage;
+  const imagesMapper = (image) => image.urls.regular || defaultImageURL;
 
   return getUnsplashApiData(imagesMapper);
 };
 
+// Route for getting the list of products
 router.get('/', async (req, res) => {
   try {
     const products = await getProducts();
@@ -43,6 +47,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Route for getting the images URL for the gallery
 router.get('/imageGallery', async (req, res) => {
   try {
     const images = await getImages();
