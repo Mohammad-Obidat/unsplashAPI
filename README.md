@@ -1,4 +1,4 @@
-# Project Name
+# Unsplash API
 
 React.js Technical Test for TA'AL
 
