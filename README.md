@@ -50,7 +50,7 @@ To start the MERN app, follow these steps:
 1. Start the Node.js server:
 
 ```bash
-npm run server
+node server
 ```
 
 2. Start the React development server (in a new terminal tab):
